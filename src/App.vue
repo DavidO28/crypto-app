@@ -7,7 +7,9 @@ import Home from "./views/Home.vue";
   <Header />
 
   <main>
-    <Home />
+    <section>
+      <Home />
+    </section>
   </main>
 </template>
 
