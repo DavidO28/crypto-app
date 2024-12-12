@@ -5,18 +5,53 @@
     <a href="#home">
       <img src="../assets/crypto.png" alt="btc logo" class="size-16" />
     </a>
-    <nav>
-      <ul class="flex flex-row text-white gap-x-3">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#cryptos">Cryptos</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </nav>
+    <input
+      type="text"
+      class="textbox"
+      placeholder="Search"
+      v-model="localSearchText"
+      @input="emitSearch"
+    />
   </header>
 </template>
+
+<script setup lang="ts">
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  searchText: { type: String },
+});
+
+const emit = defineEmits(["update:searchText"])
+
+const localSearchText = ref(props.searchText);
+
+const emitSearch = () => {
+  emit("update:searchText", localSearchText.value!);
+};
+
+watch(localSearchText, (newValue) => {
+  emit("update:searchText", newValue!);
+});
+</script>
 
 <style scoped>
 header {
   background-color: #5b2c6f;
+}
+
+.textbox {
+  outline: 0;
+  width: 200px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #212121;
+  border: 0;
+  border-radius: 5px;
+}
+
+.textbox:focus {
+  outline: 0;
+  background-color: #fff;
 }
 </style>
