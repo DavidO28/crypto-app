@@ -4,7 +4,6 @@
   >
     <div class="flex flex-row items-center">
       <img src="../assets/crypto.png" alt="btc logo" class="size-16 me-3" />
-      <h1 class="text-lg">Live crypto prices</h1>
     </div>
     <div class="relative">
       <input

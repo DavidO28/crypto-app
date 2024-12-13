@@ -1,54 +1,56 @@
 <template>
   <Header v-model:searchText="searchText" />
-  <table class="w-9/12 m-auto mt-5">
-    <thead>
-      <tr>
-        <th v-for="(title, index) in titles" :key="index" class="px-4 py-2">
-          {{ title }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="(coin, index) in paginatedCoins"
-        :key="coin.id"
-        class="text-center border-b-amber-600 border-b-2"
-      >
-        <td class="px-4 py-2">
-          {{ index + 1 + (currentPage - 1) * coinsPerPage }}
-        </td>
-        <td class="flex justify-start items-center text-center px-4 py-2">
-          <img :src="coin.image" :alt="coin.name" class="size-8 me-3" />
-          <span class="truncate" style="max-width: 200px">{{ coin.name }}</span>
-        </td>
-        <td class="px-4 py-2">
-          {{
-            coin.current_price < 0.01
-              ? coin.current_price.toFixed(8)
-              : coin.current_price.toLocaleString()
-          }}
-        </td>
-
-        <td
-          :class="[
-            coin.price_change_percentage_24h > 0
-              ? 'text-green-500'
-              : 'text-red-500',
-            'px-4 py-2',
-          ]"
+  <div class="overflow-x-auto mt-5">
+    <table class="m-auto w-max">
+      <thead>
+        <tr>
+          <th v-for="(title, index) in titles" :key="index" class="px-4 py-2">
+            {{ title }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(coin, index) in paginatedCoins"
+          :key="coin.id"
+          class="text-center border-b-amber-600 border-b-2"
         >
-          {{ coin.price_change_percentage_24h }}
-        </td>
-        <td class="px-4 py-2">{{ coin.total_volume.toLocaleString() }}</td>
-      </tr>
-    </tbody>
-  </table>
+          <td class="px-4 py-2">
+            {{ index + 1 + (currentPage - 1) * coinsPerPage }}
+          </td>
+          <td class="flex justify-start items-center text-center px-4 py-2">
+            <img :src="coin.image" :alt="coin.name" class="size-8 me-3" />
+            <span class="truncate" style="max-width: 200px">{{ coin.name }}</span>
+          </td>
+          <td class="px-4 py-2">
+            {{
+              coin.current_price < 0.01
+                ? coin.current_price.toFixed(8)
+                : coin.current_price.toLocaleString()
+            }}
+          </td>
+
+          <td
+            :class="[
+              coin.price_change_percentage_24h > 0
+                ? 'text-green-500'
+                : 'text-red-500',
+              'px-4 py-2',
+            ]"
+          >
+            {{ coin.price_change_percentage_24h }}
+          </td>
+          <td class="px-4 py-2">{{ coin.total_volume.toLocaleString() }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="flex justify-center my-5">
     <button
       :disabled="currentPage === 1"
       @click="changePage(currentPage - 1)"
-      class="px-4 py-2 mx-2 bg-sky-600 rounded-full hover:bg-sky-200 text-white"
+      class="px-4 py-2 mx-2 bg-sky-600 rounded-full text-white"
     >
       &#8592;
     </button>
@@ -56,12 +58,13 @@
     <button
       :disabled="currentPage === totalPages"
       @click="changePage(currentPage + 1)"
-      class="px-4 py-2 mx-2 bg-sky-600 rounded-full hover:bg-sky-200 text-white"
+      class="px-4 py-2 mx-2 bg-sky-600 rounded-full text-white"
     >
       &#8594;
     </button>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from "vue";
@@ -103,7 +106,7 @@ const searchCoin = (searchValue: string) => {
 };
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0 });
 };
 
 const changePage = (page: number) => {
